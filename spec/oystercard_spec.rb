@@ -21,6 +21,13 @@ describe Oystercard do
       expect(subject.in_journey).to eq(true)
     end
   end
+  describe '#touch_out' do
+    it 'knows the card is not in journey after touching out' do
+      subject.touch_in
+      subject.touch_out
+      expect(subject.in_journey).to eq(false)
+    end
+  end
   describe '#deduct' do 
     it 'deducts the amount from the balance' do
       subject.top_up(10)
