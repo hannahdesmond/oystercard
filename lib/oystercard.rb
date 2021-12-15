@@ -10,4 +10,8 @@ class Oystercard
     fail "limit is £#{LIMIT} exceeded" if (@balance += amount) > LIMIT
   end
 
+  def deduct(amount)
+    fail "You have insufficient balance" if (@balance -= amount) < 0
+  end
+
 end
