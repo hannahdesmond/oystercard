@@ -1,7 +1,10 @@
 require 'oystercard'
 
 describe Oystercard do
-  it 'Start with a balance of zero' do
+  it 'knows whether it is on a journey' do
+    expect(subject.in_journey?).to eq(nil)
+  end
+  it 'starts with a balance of zero' do
     expect(subject.balance).to eq(0) 
   end
   describe '#top_up' do
@@ -12,6 +15,12 @@ describe Oystercard do
     it 'raises error if maximum balance is exceeded' do
       expect { subject.top_up(91) }.to raise_error 'limit is £90 exceeded'
     end
+  describe '#touch_in' do
+    it 'knows the card is in journey after touching in' do
+      subject.touch_in
+      expect(subject.in_journey).to eq(true)
+    end
+  end
   describe '#deduct' do 
     it 'deducts the amount from the balance' do
       subject.top_up(10)
