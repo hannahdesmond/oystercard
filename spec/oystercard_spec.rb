@@ -1,8 +1,8 @@
 require 'oystercard'
 
 describe Oystercard do
-  it 'knows whether it is on a journey' do
-    expect(subject.in_journey?).to eq(nil)
+  it 'starts not in a journey' do
+    expect(subject.in_journey?).to eq(false)
   end
   it 'starts with a balance of zero' do
     expect(subject.balance).to eq(0) 
@@ -22,7 +22,7 @@ describe Oystercard do
     it 'knows the card is in journey after touching in' do
       subject.top_up(1)
       subject.touch_in(station)
-      expect(subject.in_journey).to eq(true)
+      expect(subject.in_journey?).to eq(true)
       expect(subject.entry_station).to eq(station)
     end
     it 'can only touch in if there is the minimum balance' do
@@ -38,7 +38,7 @@ describe Oystercard do
     end
     it 'knows the card is not in journey after touching out' do
       subject.touch_out
-      expect(subject.in_journey).to eq(false)
+      expect(subject.in_journey?).to eq(false)
     end
     it 'deducts the fare from my card' do
       expect { subject.touch_out }.to change{ subject.balance }.by(-2)

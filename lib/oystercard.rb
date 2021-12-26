@@ -1,6 +1,5 @@
 class Oystercard
   attr_reader :balance
-  attr_accessor :in_journey
   attr_accessor :entry_station
 
   LIMIT = 90
@@ -15,7 +14,7 @@ class Oystercard
   end
 
   def in_journey?
-    @in_journey
+    !(@entry_station == nil)
   end
 
   def touch_in(station)
