@@ -37,21 +37,29 @@ describe Oystercard do
       subject.touch_in(station)
     end
     it 'knows the card is not in journey after touching out' do
-      subject.touch_out
+      subject.touch_out(station)
       expect(subject.in_journey?).to eq(false)
     end
     it 'deducts the fare from my card' do
-      expect { subject.touch_out }.to change{ subject.balance }.by(-2)
+      expect { subject.touch_out(station) }.to change{ subject.balance }.by(-2)
     end
     it 'forgets the station on touch out' do
-      subject.touch_out
+      subject.touch_out(station)
       expect(subject.entry_station).to be_nil
     end
   end
 
   describe 'past journeys' do
+    let(:tottenham_hale) { double :tottenham_hale }
+    let(:brixton) { double :brixton }
     it 'holds a default list of past journeys' do
       expect(subject.journeys).to eq([])
+    end
+    it 'stores a journey' do
+      subject.top_up(10)
+      subject.touch_in(tottenham_hale)
+      subject.touch_out(brixton)
+      expect(subject.journeys).to eq([{tottenham_hale => brixton}])
     end
   end
 end

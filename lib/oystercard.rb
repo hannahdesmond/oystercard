@@ -25,13 +25,12 @@ class Oystercard
       @entry_station = station
   end
 
-  def touch_out
+  def touch_out(station)
+    @journeys << {@entry_station => station}
     deduct(2)
     @in_journey = false
     @entry_station = nil
   end
-
-
 
   private
 
