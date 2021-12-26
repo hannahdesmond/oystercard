@@ -48,4 +48,10 @@ describe Oystercard do
       expect(subject.entry_station).to be_nil
     end
   end
+
+  describe 'past journeys' do
+    it 'holds a default list of past journeys' do
+      expect(subject.journeys).to eq([])
+    end
+  end
 end
