@@ -9,16 +9,19 @@ class Journey
   end
 
   def complete?
-    !(@exit_station == nil)
+    !(@exit_station == nil) && !(@entry_station == nil)
   end
 
   def fare
-    if @entry_station == nil || @exit_station == nil
-      PENALTY_FARE 
+    if complete?
+      1
+    else
+      PENALTY_FARE
     end
   end
 
   def finish(station)
+    @exit_station = station
     self
   end
 
