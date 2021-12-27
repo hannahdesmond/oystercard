@@ -26,6 +26,10 @@ describe Journey do
         subject.finish(other_station)
         expect(subject.fare).to eq(1)
       end
+      it 'knows the journey is complete' do
+        subject.finish(other_station)
+        expect(subject).to be_complete
+      end
     end
   end
 end

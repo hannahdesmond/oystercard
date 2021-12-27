@@ -1,9 +1,7 @@
 require 'oystercard'
 
 describe Oystercard do
-  it 'starts not in a journey' do
-    expect(subject.in_journey?).to eq(false)
-  end
+  
   it 'starts with a balance of zero' do
     expect(subject.balance).to eq(0) 
   end
@@ -12,21 +10,22 @@ describe Oystercard do
     it 'increments the balance' do
       expect { subject.top_up(10) }.to change { subject.balance }.by(10)
     end
-  end
     it 'raises error if maximum balance is exceeded' do
       expect { subject.top_up(91) }.to raise_error 'limit is £90 exceeded'
     end
+  end
 
   describe '#touch_in' do
     let(:station) { double :station }
-    it 'knows the card is in journey after touching in' do
-      subject.top_up(1)
-      subject.touch_in(station)
-      expect(subject.in_journey?).to eq(true)
-      expect(subject.entry_station).to eq(station)
-    end
-    it 'can only touch in if there is the minimum balance' do
+    let(:journey) { Journey.new(station) }
+
+    it 'can only touch in when has the minimum balance' do
       expect{ subject.touch_in(station) }.to raise_error("Insufficient balance to check in")
+    end
+    it 'creates a new journey' do
+      subject.top_up(40)
+      subject.touch_in(station)
+      expect(journey).to have_attributes(:entry_station => station) 
     end
   end
 
@@ -36,16 +35,8 @@ describe Oystercard do
       subject.top_up(10)
       subject.touch_in(station)
     end
-    it 'knows the card is not in journey after touching out' do
-      subject.touch_out(station)
-      expect(subject.in_journey?).to eq(false)
-    end
     it 'deducts the fare from my card' do
-      expect { subject.touch_out(station) }.to change{ subject.balance }.by(-2)
-    end
-    it 'forgets the station on touch out' do
-      subject.touch_out(station)
-      expect(subject.entry_station).to be_nil
+      expect { subject.touch_out(station) }.to change{ subject.balance }.by(-1)
     end
   end
 
@@ -59,7 +50,7 @@ describe Oystercard do
       subject.top_up(10)
       subject.touch_in(tottenham_hale)
       subject.touch_out(brixton)
-      expect(subject.journeys).to eq([{tottenham_hale => brixton}])
+      expect(subject.journeys.length).to eq(1)
     end
   end
 end
