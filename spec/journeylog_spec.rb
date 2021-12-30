@@ -24,7 +24,6 @@ describe JourneyLog do
       it 'should add an exit station where there is an entry station' do
         subject.start(station)
         subject.finish(other_station)
-        expect(journey).to have_received(:finish)
         subject.start(station)
         subject.finish(other_station)
         expect(subject.journeys).to include(journey, journey)

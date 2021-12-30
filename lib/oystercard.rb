@@ -29,8 +29,6 @@ class Oystercard
     @journey.exit_station = station
     @journeys << (@journey.finish(station))
     deduct(@journey.fare) 
-    # Should these instance variables be
-    # contained in wrapper/accessor methods?
   end
 
   private

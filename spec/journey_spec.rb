@@ -3,6 +3,7 @@ require 'oystercard'
 
 describe Journey do 
   let(:station) { double :station, zone: 1 }
+  let(:other_station) { double :other_station, zone: 3 }
   it 'starts as incomplete' do
     expect(subject.complete?).to eq(false)
   end
@@ -21,9 +22,8 @@ describe Journey do
       expect(subject.fare).to eq(Journey::PENALTY_FARE)
     end
     context 'also given an exit station' do
-      let(:other_station) { double :other_station, zone: 1 }
       it 'calculates a fare' do
-        subject.finish(other_station)
+        subject.finish(station)
         expect(subject.fare).to eq(1)
       end
       it 'knows the journey is complete' do
@@ -33,12 +33,3 @@ describe Journey do
     end
   end
 end
-
-
-
-# when touching in, a new journey is created
-# the entry station is stored
-# when touching out, the journey is finished
-# the fare is calculated
-# the journey is pushed into the journey variable
-# if an entry exit station not given, a penalty fare is added

@@ -30,13 +30,17 @@ describe Oystercard do
   end
 
   describe '#touch_out' do
-    let(:station) { double :station }
+    let(:station) { double :station, zone: 1 }
+    let(:other_station) { double :other_station, zone: 3 }
     before do
       subject.top_up(10)
       subject.touch_in(Journey.new(station))
     end
     it 'deducts the fare from my card' do
       expect { subject.touch_out(station) }.to change{ subject.balance }.by(-1)
+    end
+    it 'deducts the right amount for crossing zones' do
+      expect { subject.touch_out(other_station) }.to change{ subject.balance }.by(-3)
     end
   end
 end

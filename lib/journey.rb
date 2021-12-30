@@ -13,16 +13,15 @@ class Journey
   end
 
   def fare
-    complete? ? 1 : PENALTY_FARE
+    complete? ? 1 + calculate_fare : PENALTY_FARE
+  end
+
+  def calculate_fare
+    @exit_station.zone - @entry_station.zone
   end
 
   def finish(station)
     @exit_station = station
     self
   end
-
-  # Should all of these by public methods?
-  # Which ones are only called within the class?
-
-  
 end
