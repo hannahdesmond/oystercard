@@ -1,5 +1,6 @@
 require_relative 'journey'
 require_relative 'station'
+require_relative 'journeylog'
 
 class Oystercard
   attr_reader :balance
@@ -22,10 +23,6 @@ class Oystercard
   def touch_in(journey = Journey.new(station))
     fail "Insufficient balance to check in" if balance < MINIMUM_BALANCE
     @journey = journey
-    # I am dependent on this class here. 
-    # Could I pass it in as an object? 
-    # That is... Dependency injection
-    # Then I can use a mock in my tests.
   end
 
   def touch_out(station)

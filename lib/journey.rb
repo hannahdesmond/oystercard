@@ -23,6 +23,6 @@ class Journey
 
   # Should all of these by public methods?
   # Which ones are only called within the class?
-  
+
   
 end

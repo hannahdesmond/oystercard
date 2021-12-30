@@ -39,12 +39,4 @@ describe Oystercard do
       expect { subject.touch_out(station) }.to change{ subject.balance }.by(-1)
     end
   end
-
-  describe 'past journeys' do
-    let(:tottenham_hale) { double :tottenham_hale }
-    let(:brixton) { double :brixton }
-    it 'holds a default list of past journeys' do
-      expect(subject.journeys).to eq([])
-    end
-  end
 end
