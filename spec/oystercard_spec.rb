@@ -20,11 +20,11 @@ describe Oystercard do
     let(:journey) { Journey.new(station) }
 
     it 'can only touch in when has the minimum balance' do
-      expect{ subject.touch_in(station) }.to raise_error("Insufficient balance to check in")
+    expect{ subject.touch_in(station) }.to raise_error("Insufficient balance to check in")
     end
     it 'creates a new journey' do
       subject.top_up(40)
-      subject.touch_in(station)
+      subject.touch_in(journey)
       expect(journey).to have_attributes(:entry_station => station) 
     end
   end
@@ -33,7 +33,7 @@ describe Oystercard do
     let(:station) { double :station }
     before do
       subject.top_up(10)
-      subject.touch_in(station)
+      subject.touch_in(Journey.new(station))
     end
     it 'deducts the fare from my card' do
       expect { subject.touch_out(station) }.to change{ subject.balance }.by(-1)
@@ -45,12 +45,6 @@ describe Oystercard do
     let(:brixton) { double :brixton }
     it 'holds a default list of past journeys' do
       expect(subject.journeys).to eq([])
-    end
-    it 'stores a journey' do
-      subject.top_up(10)
-      subject.touch_in(tottenham_hale)
-      subject.touch_out(brixton)
-      expect(subject.journeys.length).to eq(1)
     end
   end
 end
